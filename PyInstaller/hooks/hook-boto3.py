@@ -17,10 +17,17 @@
 # Tested with boto3 1.2.1
 
 from PyInstaller.utils.hooks import collect_data_files, collect_submodules
+from PyInstaller.compat import is_py2
 
 hiddenimports = (
     collect_submodules('boto3.dynamodb') +
     collect_submodules('boto3.ec2') +
     collect_submodules('boto3.s3')
 )
+
+if is_py2:
+    hiddenimports += ['HTMLParser']
+else:
+    hiddenimports += ['html.parser']
+
 datas = collect_data_files('boto3')
